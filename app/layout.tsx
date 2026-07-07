@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/Sidebar";
 import { ScrollRestorer } from "@/components/ui/ScrollRestorer";
+import { SupabaseKeepalive } from "@/components/SupabaseKeepalive";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -48,6 +49,7 @@ export default async function RootLayout({
       <body className="font-body antialiased bg-base text-ink transition-colors duration-200">
         <div className="flex flex-col md:flex-row min-h-screen">
           {user && <Sidebar />}
+          {user && <SupabaseKeepalive />}
           <main id="main-scroll-container" className="flex-1 min-w-0 w-full flex flex-col relative h-screen overflow-y-auto">
             <ScrollRestorer />
             {children}
