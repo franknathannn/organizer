@@ -13,14 +13,26 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options });
+          const opt = {
+            ...options,
+            maxAge: options.maxAge ?? 60 * 60 * 24 * 365, // 1 year
+            path: options.path ?? "/",
+            sameSite: options.sameSite ?? "lax",
+          };
+          request.cookies.set({ name, value, ...opt });
           response = NextResponse.next({ request: { headers: request.headers } });
-          response.cookies.set({ name, value, ...options });
+          response.cookies.set({ name, value, ...opt });
         },
         remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: "", ...options });
+          const opt = {
+            ...options,
+            maxAge: 0,
+            path: options.path ?? "/",
+            sameSite: options.sameSite ?? "lax",
+          };
+          request.cookies.set({ name, value: "", ...opt });
           response = NextResponse.next({ request: { headers: request.headers } });
-          response.cookies.set({ name, value: "", ...options });
+          response.cookies.set({ name, value: "", ...opt });
         },
       },
     }

@@ -66,10 +66,27 @@ export default function DashboardIntroPage() {
             ${PAPER_LINE} 36px
           );
         }
+        @keyframes float-slow-1 {
+          0%, 100% { transform: translate3d(0, 0, 0); }
+          50% { transform: translate3d(0, 20px, 0); }
+        }
+        @keyframes float-slow-2 {
+          0%, 100% { transform: translate3d(0, 0, 0); }
+          50% { transform: translate3d(0, -25px, 0); }
+        }
+        .float-blob-1 {
+          animation: float-slow-1 8s ease-in-out infinite;
+          will-change: transform;
+        }
+        .float-blob-2 {
+          animation: float-slow-2 9s ease-in-out infinite;
+          will-change: transform;
+        }
         @media (prefers-reduced-motion: reduce) {
           * {
             animation-duration: 0.01ms !important;
             transition-duration: 0.01ms !important;
+            animation-name: none !important;
           }
         }
       `}</style>
@@ -103,19 +120,15 @@ export default function DashboardIntroPage() {
         {/* ---------------- HERO ---------------- */}
         <section className="relative px-6 pb-20 pt-6 sm:px-10 sm:pt-10 lg:pb-32">
           {/* floating highlighter blobs for ambience */}
-          <motion.div
+          <div
             aria-hidden
-            className="pointer-events-none absolute -left-16 top-24 h-56 w-56 rounded-full blur-3xl"
+            className="pointer-events-none absolute -left-16 top-24 h-56 w-56 rounded-full blur-3xl float-blob-1"
             style={{ background: MUSTARD, opacity: 0.25 }}
-            animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div
+          <div
             aria-hidden
-            className="pointer-events-none absolute right-0 top-1/3 h-72 w-72 rounded-full blur-3xl"
+            className="pointer-events-none absolute right-0 top-1/3 h-72 w-72 rounded-full blur-3xl float-blob-2"
             style={{ background: MINT, opacity: 0.2 }}
-            animate={{ y: [0, -25, 0] }}
-            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
           />
 
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">

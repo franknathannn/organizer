@@ -14,14 +14,28 @@ export function createClient() {
         },
         set(name: string, value: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value, ...options });
+            cookieStore.set({
+              name,
+              value,
+              ...options,
+              maxAge: options.maxAge ?? 60 * 60 * 24 * 365, // 1 year
+              path: options.path ?? "/",
+              sameSite: options.sameSite ?? "lax",
+            });
           } catch {
             // called from a Server Component; middleware handles refresh instead
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value: "", ...options });
+            cookieStore.set({
+              name,
+              value: "",
+              ...options,
+              maxAge: 0,
+              path: options.path ?? "/",
+              sameSite: options.sameSite ?? "lax",
+            });
           } catch {
             // called from a Server Component; middleware handles refresh instead
           }
